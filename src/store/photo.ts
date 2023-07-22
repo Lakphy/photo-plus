@@ -17,6 +17,16 @@ const initialState: PhotoData = {
       x: 10,
       y: 0,
     },
+    {
+      type: LayerType.Rect,
+      id: "rrr1",
+      name: "testRect",
+      width: 50,
+      height: 50,
+      backgroundColor: "red",
+      x: 10,
+      y: 60,
+    },
   ],
 };
 

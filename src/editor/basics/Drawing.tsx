@@ -1,10 +1,15 @@
+import { useTransformer } from "@/hooks/editor/useTransformer";
+import { updateSelectedId } from "@/store/editor";
 import { LayerObject, LayerType } from "@/types/editor";
 import React from "react";
 import { Layer, Rect } from "react-konva";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Drawing() {
+  const transformerContext = useTransformer();
   const photoData = useSelector((state: any) => state.photo);
+  const selectedId = useSelector((state: any) => state.editor.selectedId);
+  const dispatch = useDispatch();
   const renderDrawing = (data: LayerObject) => {
     switch (data.type) {
       case LayerType.Rect:
@@ -17,9 +22,6 @@ function Drawing() {
             y={data.y}
             id={data.id}
             key={data.id}
-            onClick={(e) => {
-              console.log("click", e);
-            }}
             draggable
           ></Rect>
         );
