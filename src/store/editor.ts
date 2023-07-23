@@ -33,9 +33,13 @@ export const editorSlice = createSlice({
     updateMultipleSelectedId: (state, action) => {
       state.selectedId = [...state.selectedId, action.payload];
     },
+    clearSelectedId: (state) => {
+      state.selectedId = [];
+    },
   },
 });
 
-export const { updateBoard, updateSelectedId } = editorSlice.actions;
+export const { updateBoard, updateSelectedId, clearSelectedId } =
+  editorSlice.actions;
 
 export default editorSlice.reducer;

@@ -14,6 +14,7 @@ export interface BasicLayer {
   type: LayerType;
   x: number;
   y: number;
+  rotation: number;
 }
 
 export interface PhotoData {

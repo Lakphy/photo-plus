@@ -30,6 +30,8 @@ function DrawingBoard() {
     if (backRectRef.current) {
       backRectRef.current.width(photoData.height);
       backRectRef.current.height(photoData.height);
+      backRectRef.current?.cache();
+      backRectRef.current?.getLayer()?.batchDraw();
     }
   }, [photoData.height, photoData.width]);
   return (

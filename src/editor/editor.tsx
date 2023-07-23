@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Stage, Layer, Rect, Transformer } from "react-konva";
 import Background from "./basics/Background";
 import Konva from "konva";
@@ -9,9 +9,10 @@ import {
   transformerContext,
   useTransformer,
 } from "@/hooks/editor/useTransformer";
-import { updateSelectedId } from "@/store/editor";
+import { clearSelectedId, updateSelectedId } from "@/store/editor";
 import { useDispatch, useSelector } from "react-redux";
 import { LayerObject } from "@/types/editor";
+import { updateMetaData } from "@/store/photo";
 
 function Editor() {
   const StageRef = useRef<Konva.Stage>(null);
@@ -23,8 +24,40 @@ function Editor() {
     () => photoMetadata.map((item: LayerObject) => item.id),
     [photoMetadata]
   );
-  const findValidObject = (id: string) => {
-    return photoMetaId.find((item: string) => item === id);
+  const findValidObject = useCallback(
+    (id: string) => {
+      return photoMetaId.find((item: string) => item === id);
+    },
+    [photoMetaId]
+  );
+  const handleClickObject = (e: any) => {
+    if (!findValidObject(e.target.id())) {
+      transformerRef.current?.nodes([]);
+      dispatch(clearSelectedId());
+    } else {
+      transformerRef.current?.nodes([e.target]);
+      dispatch(updateSelectedId(e.target.id()));
+    }
+  };
+  const handleDragObjectBegin = (e: any) => {
+    if (!findValidObject(e.target.id())) {
+      transformerRef.current?.nodes([]);
+      dispatch(clearSelectedId());
+    } else {
+      transformerRef.current?.nodes([e.target]);
+      dispatch(updateSelectedId(e.target.id()));
+    }
+  };
+  const handleDragObjectEnd = (e: any) => {
+    if (findValidObject(e.target.id())) {
+      dispatch(
+        updateMetaData({
+          id: e.target.id(),
+          x: e.target.x(),
+          y: e.target.y(),
+        })
+      );
+    }
   };
   useResize((width: number, height: number) => {
     if (StageRef.current) {
@@ -39,20 +72,9 @@ function Editor() {
           ref={StageRef}
           width={window.innerWidth}
           height={window.innerHeight}
-          onClick={(e) => {
-            if (!findValidObject(e.target.id())) return;
-            transformerRef.current?.nodes([e.target]);
-            dispatch(updateSelectedId(e.target.id()));
-          }}
-          onDragStart={(e) => {
-            if (!findValidObject(e.target.id())) return;
-            transformerRef.current?.nodes([e.target]);
-            dispatch(updateSelectedId(e.target.id()));
-          }}
-          onTransformEnd={(e) => {
-            if (!findValidObject(e.target.id())) return;
-            console.log("onTransformEnd", e);
-          }}
+          onClick={handleClickObject}
+          onDragStart={handleDragObjectBegin}
+          onDragEnd={handleDragObjectEnd}
         >
           <Background />
           <DrawingBoard />

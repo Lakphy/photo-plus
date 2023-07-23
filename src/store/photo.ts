@@ -16,16 +16,18 @@ const initialState: PhotoData = {
       backgroundColor: "red",
       x: 10,
       y: 0,
+      rotation: 0,
     },
     {
-      type: LayerType.Rect,
+      type: "rect" as LayerType,
       id: "rrr1",
       name: "testRect",
-      width: 50,
-      height: 50,
+      width: 94.21709183182465,
+      height: 111.80432713122535,
       backgroundColor: "red",
-      x: 10,
-      y: 60,
+      x: 145.0003917869839,
+      y: 131.00022169833403,
+      rotation: 0,
     },
   ],
 };
@@ -34,10 +36,17 @@ export const photoSlice = createSlice({
   name: "photo",
   initialState,
   reducers: {
-    incrementByAmount: (state, action) => {},
+    updateMetaData: (state, action) => {
+      state.metadata = state.metadata.map((item) => {
+        if (item.id === action.payload.id) {
+          return { ...item, ...action.payload };
+        }
+        return item;
+      });
+    },
   },
 });
 
-export const { incrementByAmount } = photoSlice.actions;
+export const { updateMetaData } = photoSlice.actions;
 
 export default photoSlice.reducer;
