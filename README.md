@@ -1,46 +1,21 @@
-# Getting Started with Create React App
+# PhotoPlus
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> 该项目正在施工中，欢迎提出建议
 
-## Available Scripts
+一款基于 Konva.js 的图像编辑器，使用 Redux 从编辑器和图像元数据两个层面管理状态，并实现 Redux Store 与 Konva 对象的双向绑定。
 
-In the project directory, you can run:
+**_请注意，项目仍处在非常初期开发状态，用户交互界面非常不完善，数据格式与接口格式可能还会经历大幅修改_**
 
-### `npm start`
+项目使用`pnpm`包管理工具
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+开发模式运行项目：
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+pnpm start
+```
 
-### `npm test`
+构建项目：
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+pnpm build
+```
