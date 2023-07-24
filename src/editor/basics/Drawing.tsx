@@ -3,7 +3,7 @@ import { clearSelectedId, updateSelectedId } from "@/store/editor";
 import { updateMetaData } from "@/store/photo";
 import { LayerObject, LayerType } from "@/types/editor";
 import React, { useCallback, useMemo } from "react";
-import { Layer, Rect } from "react-konva";
+import { Image, Layer, Rect } from "react-konva";
 import { useDispatch, useSelector } from "react-redux";
 
 function Drawing() {
@@ -60,6 +60,26 @@ function Drawing() {
             onTransformStart={handleTransformBegin}
             onTransformEnd={handleTransformEnd}
           ></Rect>
+        );
+      case LayerType.Image:
+        const img = document.createElement("img");
+        img.src = data.src;
+        return (
+          <Image
+            width={data.width}
+            height={data.height}
+            x={data.x}
+            y={data.y}
+            id={data.id}
+            rotation={data.rotation}
+            key={data.id}
+            scaleX={1}
+            scaleY={1}
+            draggable
+            onTransformStart={handleTransformBegin}
+            onTransformEnd={handleTransformEnd}
+            image={img}
+          ></Image>
         );
     }
   };

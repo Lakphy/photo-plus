@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@babel/core':
     specifier: ^7.16.0
@@ -145,6 +149,9 @@ dependencies:
   react-refresh:
     specifier: ^0.11.0
     version: 0.11.0
+  redux-thunk:
+    specifier: ^2.4.2
+    version: 2.4.2(redux@4.2.1)
   resolve:
     specifier: ^1.20.0
     version: 1.22.2

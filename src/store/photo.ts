@@ -17,17 +17,19 @@ const initialState: PhotoData = {
       x: 10,
       y: 0,
       rotation: 0,
+      zIndex: 0,
     },
     {
-      type: "rect" as LayerType,
+      type: LayerType.Image,
       id: "rrr1",
       name: "testRect",
       width: 94.21709183182465,
       height: 111.80432713122535,
-      backgroundColor: "red",
       x: 145.0003917869839,
       y: 131.00022169833403,
       rotation: 0,
+      src: "https://picsum.photos/200/300",
+      zIndex: 1,
     },
   ],
 };
@@ -44,9 +46,15 @@ export const photoSlice = createSlice({
         return item;
       });
     },
+    sortMetaDataZIndex: (state) => {
+      state.metadata.sort((a, b) => a.zIndex - b.zIndex);
+      state.metadata = state.metadata.map((item, index) => {
+        return { ...item, zIndex: index };
+      });
+    },
   },
 });
 
-export const { updateMetaData } = photoSlice.actions;
+export const { updateMetaData, sortMetaDataZIndex } = photoSlice.actions;
 
 export default photoSlice.reducer;

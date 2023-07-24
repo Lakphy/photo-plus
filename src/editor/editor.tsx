@@ -80,7 +80,11 @@ function Editor() {
           <DrawingBoard />
           <Drawing />
           <Layer>
-            <Transformer ref={transformerRef} />
+            <Transformer
+              ref={transformerRef}
+              anchorCornerRadius={10}
+              anchorFill={"rgb(0, 161, 255)"}
+            />
           </Layer>
         </Stage>
       </transformerContext.Provider>
