@@ -13,11 +13,13 @@ import { clearSelectedId, updateSelectedId } from "@/store/editor";
 import { useDispatch, useSelector } from "react-redux";
 import { LayerObject } from "@/types/editor";
 import { updateMetaData } from "@/store/photo";
+import { useOffset } from "@/hooks/editor/useOffset";
 
 function Editor() {
   const StageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const dispatch = useDispatch();
+  const { handleWheel } = useOffset();
   const photoData = useSelector((state: any) => state.photo);
   const photoMetadata = useSelector((state: any) => state.photo.metadata);
   const selectedId = useSelector((state: any) => state.editor.selectedId);
@@ -69,6 +71,7 @@ function Editor() {
           onClick={handleClickObject}
           onDragStart={handleDragObjectBegin}
           onDragEnd={handleDragObjectEnd}
+          onWheel={handleWheel}
         >
           <Background />
           <DrawingBoard />

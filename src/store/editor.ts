@@ -5,6 +5,7 @@ interface EditorState {
     offsetX: number;
     offsetY: number;
     scale: number;
+    minScale: number;
   };
   sider: {
     left: number;
@@ -16,8 +17,8 @@ interface EditorState {
 }
 
 const initialState: EditorState = {
-  board: { offsetX: 0, offsetY: 0, scale: 1 },
-  sider: { left: 0, top: 0, right: 0, bottom: 0 },
+  board: { offsetX: 0, offsetY: 0, scale: 1, minScale: 0.1 },
+  sider: { left: 50, top: 50, right: 50, bottom: 50 },
   selectedId: [],
 };
 
@@ -25,8 +26,27 @@ export const editorSlice = createSlice({
   name: "editor",
   initialState,
   reducers: {
-    updateBoard: (state, action) =>
-      (state.board = { ...state.board, ...action.payload }),
+    updateBoard: (state, action) => {
+      state.board = { ...state.board, ...action.payload };
+    },
+    zoomBoard: (state, action) => {
+      const newScale = Math.max(
+        state.board.scale + action.payload.delta,
+        state.board.minScale
+      );
+      state.board.offsetX =
+        action.payload.x -
+        ((action.payload.x - state.board.offsetX) * newScale) /
+          state.board.scale;
+      state.board.offsetY =
+        action.payload.y -
+        ((action.payload.y - state.board.offsetY) * newScale) /
+          state.board.scale;
+      state.board.scale = newScale;
+    },
+    updateMinScale: (state, action) => {
+      state.board.minScale = action.payload;
+    },
     updateSelectedId: (state, action) => {
       state.selectedId = [action.payload];
     },
@@ -42,7 +62,12 @@ export const editorSlice = createSlice({
   },
 });
 
-export const { updateBoard, updateSelectedId, clearSelectedId } =
-  editorSlice.actions;
+export const {
+  updateBoard,
+  updateMinScale,
+  updateSelectedId,
+  clearSelectedId,
+  zoomBoard,
+} = editorSlice.actions;
 
 export default editorSlice.reducer;

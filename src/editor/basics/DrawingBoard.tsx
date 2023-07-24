@@ -10,6 +10,7 @@ function DrawingBoard() {
   const chessBoardRef = useRef<Konva.Rect>(null);
   const backRectRef = useRef<Konva.Rect>(null);
   const photoData = useSelector((state: { photo: PhotoData }) => state.photo);
+  const boardConfig = useSelector((state: any) => state.editor.board);
   function loadBackground() {
     const chessBoardImage = new window.Image();
     chessBoardImage.src = editorbg;
@@ -35,7 +36,13 @@ function DrawingBoard() {
     }
   }, [photoData.height, photoData.width]);
   return (
-    <Layer ref={backgroundRef}>
+    <Layer
+      ref={backgroundRef}
+      x={boardConfig.offsetX}
+      y={boardConfig.offsetY}
+      scaleX={boardConfig.scale}
+      scaleY={boardConfig.scale}
+    >
       <Rect
         ref={backRectRef}
         fill="white"

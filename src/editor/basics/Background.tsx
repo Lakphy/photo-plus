@@ -17,7 +17,7 @@ function Background() {
     <Layer ref={backgroundRef}>
       <Rect
         ref={innerRectRef}
-        fill="black"
+        fill="grey"
         width={window.innerWidth}
         height={window.innerHeight}
       />

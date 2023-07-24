@@ -13,6 +13,7 @@ function Drawing() {
   const selectedId = useSelector((state: any) => state.editor.selectedId);
   const dispatch = useDispatch();
   const photoData = useSelector((state: any) => state.photo);
+  const boardConfig = useSelector((state: any) => state.editor.board);
   const photoMetadata = useSelector((state: any) => state.photo.metadata);
   const photoMetaId: string[] = useMemo(
     () => photoMetadata.map((item: LayerObject) => item.id),
@@ -68,7 +69,12 @@ function Drawing() {
     }
   };
   return (
-    <Layer>
+    <Layer
+      x={boardConfig.offsetX}
+      y={boardConfig.offsetY}
+      scaleX={boardConfig.scale}
+      scaleY={boardConfig.scale}
+    >
       {photoData.metadata.map((item: LayerObject) => renderDrawing(item))}
     </Layer>
   );
