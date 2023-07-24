@@ -5,6 +5,8 @@ import { LayerObject, LayerType } from "@/types/editor";
 import React, { useCallback, useMemo } from "react";
 import { Image, Layer, Rect } from "react-konva";
 import { useDispatch, useSelector } from "react-redux";
+import RectPlus from "../components/RectPlus";
+import ImagePlus from "../components/ImagePlus";
 
 function Drawing() {
   const transformerContext = useTransformer();
@@ -25,18 +27,20 @@ function Drawing() {
   const handleTransformBegin = (e: any) => {};
   const handleTransformEnd = (e: any) => {
     if (findValidObject(e.target.id())) {
+      const newWidth = e.target.width() * e.target.scaleX();
+      const newHeight = e.target.height() * e.target.scaleY();
       dispatch(
         updateMetaData({
           id: e.target.id(),
           x: e.target.x(),
           y: e.target.y(),
-          width: e.target.width() * e.target.scaleX(),
-          height: e.target.height() * e.target.scaleY(),
+          width: Math.abs(newWidth),
+          height: Math.abs(newHeight),
           rotation: e.target.rotation(),
         })
       );
-      e.target.scaleX(1);
-      e.target.scaleY(1);
+      e.target.scaleX(newWidth < 0 ? -1 : 1);
+      e.target.scaleY(newHeight < 0 ? -1 : 1);
       // e.target.cache();
       // e.target.getLayer().batchDraw();
     }
@@ -45,41 +49,21 @@ function Drawing() {
     switch (data.type) {
       case LayerType.Rect:
         return (
-          <Rect
-            width={data.width}
-            height={data.height}
-            fill={data.backgroundColor}
-            x={data.x}
-            y={data.y}
-            id={data.id}
-            rotation={data.rotation}
+          <RectPlus
+            data={data}
             key={data.id}
-            scaleX={1}
-            scaleY={1}
-            draggable
-            onTransformStart={handleTransformBegin}
-            onTransformEnd={handleTransformEnd}
-          ></Rect>
+            handleTransformBegin={handleTransformBegin}
+            handleTransformEnd={handleTransformEnd}
+          />
         );
       case LayerType.Image:
-        const img = document.createElement("img");
-        img.src = data.src;
         return (
-          <Image
-            width={data.width}
-            height={data.height}
-            x={data.x}
-            y={data.y}
-            id={data.id}
-            rotation={data.rotation}
+          <ImagePlus
+            data={data}
             key={data.id}
-            scaleX={1}
-            scaleY={1}
-            draggable
-            onTransformStart={handleTransformBegin}
-            onTransformEnd={handleTransformEnd}
-            image={img}
-          ></Image>
+            handleTransformBegin={handleTransformBegin}
+            handleTransformEnd={handleTransformEnd}
+          />
         );
     }
   };

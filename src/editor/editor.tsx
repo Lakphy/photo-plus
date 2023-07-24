@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Stage, Layer, Rect, Transformer } from "react-konva";
 import Background from "./basics/Background";
 import Konva from "konva";
@@ -20,6 +20,7 @@ function Editor() {
   const dispatch = useDispatch();
   const photoData = useSelector((state: any) => state.photo);
   const photoMetadata = useSelector((state: any) => state.photo.metadata);
+  const selectedId = useSelector((state: any) => state.editor.selectedId);
   const photoMetaId: string[] = useMemo(
     () => photoMetadata.map((item: LayerObject) => item.id),
     [photoMetadata]
@@ -31,22 +32,12 @@ function Editor() {
     [photoMetaId]
   );
   const handleClickObject = (e: any) => {
-    if (!findValidObject(e.target.id())) {
-      transformerRef.current?.nodes([]);
-      dispatch(clearSelectedId());
-    } else {
-      transformerRef.current?.nodes([e.target]);
-      dispatch(updateSelectedId(e.target.id()));
-    }
+    if (!findValidObject(e.target.id())) dispatch(clearSelectedId());
+    else dispatch(updateSelectedId(e.target.id()));
   };
   const handleDragObjectBegin = (e: any) => {
-    if (!findValidObject(e.target.id())) {
-      transformerRef.current?.nodes([]);
-      dispatch(clearSelectedId());
-    } else {
-      transformerRef.current?.nodes([e.target]);
-      dispatch(updateSelectedId(e.target.id()));
-    }
+    if (!findValidObject(e.target.id())) dispatch(clearSelectedId());
+    else dispatch(updateSelectedId(e.target.id()));
   };
   const handleDragObjectEnd = (e: any) => {
     if (findValidObject(e.target.id())) {
@@ -65,6 +56,9 @@ function Editor() {
       StageRef.current.height(height);
     }
   });
+  useEffect(() => {
+    if (selectedId.length === 0) transformerRef.current?.nodes([]);
+  }, [selectedId]);
   return (
     <div>
       <transformerContext.Provider value={transformerRef}>

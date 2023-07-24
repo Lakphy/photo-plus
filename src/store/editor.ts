@@ -36,6 +36,9 @@ export const editorSlice = createSlice({
     clearSelectedId: (state) => {
       state.selectedId = [];
     },
+    updateBoardConfig: (state, action) => {
+      state.board = { ...state.board, ...action.payload };
+    },
   },
 });
 

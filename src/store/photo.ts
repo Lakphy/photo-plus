@@ -18,6 +18,8 @@ const initialState: PhotoData = {
       y: 0,
       rotation: 0,
       zIndex: 0,
+      scaleX: 1,
+      scaleY: 1,
     },
     {
       type: LayerType.Image,
@@ -30,6 +32,8 @@ const initialState: PhotoData = {
       rotation: 0,
       src: "https://picsum.photos/200/300",
       zIndex: 1,
+      scaleX: 1,
+      scaleY: 1,
     },
   ],
 };

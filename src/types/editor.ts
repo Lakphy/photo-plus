@@ -18,6 +18,8 @@ export interface BasicLayer {
   y: number;
   rotation: number;
   zIndex: number;
+  scaleX: 1 | -1;
+  scaleY: 1 | -1;
 }
 
 export interface PhotoData {
