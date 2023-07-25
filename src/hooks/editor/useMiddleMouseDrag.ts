@@ -7,13 +7,11 @@ export function useMiddleMouseDrag(nodeRef: RefObject<Konva.Node>) {
   const dispatch = useDispatch();
   useEffect(() => {
     nodeRef.current?.on("mousedown", (e) => {
-      console.log("mousedown", e);
       if (e.evt.button === 1) {
         nodeRef.current?.startDrag();
       }
     });
     nodeRef.current?.on("mouseup", (e) => {
-      console.log("mouseup", e);
       if (e.evt.button === 1) {
         nodeRef.current?.stopDrag();
         dispatch(

@@ -18,7 +18,7 @@ interface EditorState {
 
 const initialState: EditorState = {
   board: { offsetX: 0, offsetY: 0, scale: 1, minScale: 0.1 },
-  sider: { left: 50, top: 50, right: 50, bottom: 50 },
+  sider: { left: 230, top: 70, right: 230, bottom: 100 },
   selectedId: [],
 };
 

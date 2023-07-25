@@ -15,6 +15,9 @@ import { LayerObject } from "@/types/editor";
 import { updateMetaData } from "@/store/photo";
 import { useOffset } from "@/hooks/editor/useOffset";
 import Left from "./siders/Left";
+import Top from "./siders/Top";
+import Bottom from "./siders/Bottom";
+import Right from "./siders/Right";
 
 function Editor() {
   const StageRef = useRef<Konva.Stage>(null);
@@ -87,7 +90,10 @@ function Editor() {
             />
           </Layer>
         </Stage>
-        {/* <Left /> */}
+        {/* <Top />
+        <Left />
+        <Bottom />
+        <Right /> */}
       </div>
     </transformerContext.Provider>
   );

@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useWindowSize } from "../useWindowSize";
 import { updateBoard, updateMinScale, zoomBoard } from "@/store/editor";
+import { useResize } from "../useResize";
 
 export function useOffset() {
   const dispatch = useDispatch();
@@ -65,28 +66,30 @@ export function useOffset() {
       );
   };
 
+  const resetPosition = useCallback(() => {
+    dispatch(
+      updateBoard({
+        scale: initialScale,
+        offsetX: (safeWidth - initialScale * boardWidth) / 2 + siderLeft,
+        offsetY: (safeHeight - initialScale * boardHeight) / 2 + siderTop,
+      })
+    );
+  }, [
+    boardHeight,
+    boardWidth,
+    dispatch,
+    initialScale,
+    safeHeight,
+    safeWidth,
+    siderLeft,
+    siderTop,
+  ]);
+
   useEffect(() => {
     dispatch(updateMinScale(minScale));
   }, [minScale]);
 
-  //   useEffect(() => {
-  //     console.log("offsetX", windowWidth, scale, boardWidth);
-  //     dispatch(
-  //       updateBoard({
-  //         offsetX: (windowWidth - scale * boardWidth) / 2,
-  //         offsetY: (windowHeight - scale * boardHeight) / 2,
-  //       })
-  //     );
-  //   }, [boardHeight, boardWidth, dispatch, scale, windowHeight, windowWidth]);
+  useEffect(resetPosition, [windowWidth, windowHeight]);
 
-  useEffect(() => {
-    dispatch(
-      updateBoard({
-        scale: initialScale,
-        offsetX: (windowWidth - initialScale * boardWidth) / 2,
-        offsetY: (windowHeight - initialScale * boardHeight) / 2,
-      })
-    );
-  }, []);
-  return { handleWheel, handleZoom };
+  return { handleWheel, handleZoom, resetPosition };
 }
