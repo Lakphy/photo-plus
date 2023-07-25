@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LayerObject } from "@/types/editor";
 import { updateMetaData } from "@/store/photo";
 import { useOffset } from "@/hooks/editor/useOffset";
+import Left from "./siders/Left";
 
 function Editor() {
   const StageRef = useRef<Konva.Stage>(null);
@@ -34,14 +35,17 @@ function Editor() {
     [photoMetaId]
   );
   const handleClickObject = (e: any) => {
+    if (!e.evt || e.evt.button !== 0) return;
     if (!findValidObject(e.target.id())) dispatch(clearSelectedId());
     else dispatch(updateSelectedId(e.target.id()));
   };
   const handleDragObjectBegin = (e: any) => {
+    if (!e.evt || e.evt.buttons !== 1) return;
     if (!findValidObject(e.target.id())) dispatch(clearSelectedId());
     else dispatch(updateSelectedId(e.target.id()));
   };
   const handleDragObjectEnd = (e: any) => {
+    if (!e.evt || e.evt.buttons !== 1) return;
     if (findValidObject(e.target.id())) {
       dispatch(
         updateMetaData({
@@ -62,8 +66,8 @@ function Editor() {
     if (selectedId.length === 0) transformerRef.current?.nodes([]);
   }, [selectedId]);
   return (
-    <div>
-      <transformerContext.Provider value={transformerRef}>
+    <transformerContext.Provider value={transformerRef}>
+      <div>
         <Stage
           ref={StageRef}
           width={window.innerWidth}
@@ -75,7 +79,6 @@ function Editor() {
         >
           <Background />
           <DrawingBoard />
-          <Drawing />
           <Layer>
             <Transformer
               ref={transformerRef}
@@ -84,8 +87,9 @@ function Editor() {
             />
           </Layer>
         </Stage>
-      </transformerContext.Provider>
-    </div>
+        {/* <Left /> */}
+      </div>
+    </transformerContext.Provider>
   );
 }
 

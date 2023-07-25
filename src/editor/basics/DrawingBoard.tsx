@@ -4,11 +4,14 @@ import { Layer, Rect } from "react-konva";
 import Konva from "konva";
 import { PhotoData } from "@/types/editor";
 import { useSelector } from "react-redux";
+import Drawing from "./Drawing";
+import { useMiddleMouseDrag } from "@/hooks/editor/useMiddleMouseDrag";
 
 function DrawingBoard() {
   const backgroundRef = useRef<Konva.Layer>(null);
   const chessBoardRef = useRef<Konva.Rect>(null);
   const backRectRef = useRef<Konva.Rect>(null);
+  useMiddleMouseDrag(backgroundRef);
   const photoData = useSelector((state: { photo: PhotoData }) => state.photo);
   const boardConfig = useSelector((state: any) => state.editor.board);
   function loadBackground() {
@@ -55,6 +58,7 @@ function DrawingBoard() {
         width={photoData.height}
         height={photoData.height}
       />
+      <Drawing />
     </Layer>
   );
 }

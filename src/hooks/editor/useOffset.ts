@@ -49,7 +49,7 @@ export function useOffset() {
   const minScale = useMemo(() => initialScale / 10, [initialScale]);
 
   const handleWheel = (e: any) => {
-    console.log("e", e);
+    if (e.evt.buttons !== 0) return;
     handleZoom(e.evt.deltaY, e.evt.x, e.evt.y);
   };
 

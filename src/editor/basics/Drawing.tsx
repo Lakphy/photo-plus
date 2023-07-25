@@ -69,14 +69,7 @@ function Drawing() {
     }
   };
   return (
-    <Layer
-      x={boardConfig.offsetX}
-      y={boardConfig.offsetY}
-      scaleX={boardConfig.scale}
-      scaleY={boardConfig.scale}
-    >
-      {photoData.metadata.map((item: LayerObject) => renderDrawing(item))}
-    </Layer>
+    <>{photoData.metadata.map((item: LayerObject) => renderDrawing(item))}</>
   );
 }
 
